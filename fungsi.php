@@ -373,16 +373,10 @@ function getEigenVector($matrik_a, $matrik_b, $n)
 }
 
 // mencari Cons Index
-function getConsIndex($matrik_a, $matrik_b, $n, $matrikb, $jmlmnk, $pv)
+function getConsIndex($matrik_a, $matrik_b, $n)
 {
 	$eigenvektor = getEigenVector($matrik_a, $matrik_b, $n);
-	$eigenValueTotal = 0;
-	for ($x = 0; $x <= ($n - 1); $x++) {
-		for ($y = 0; $y <= ($n - 1); $y++) {
-			round($matrikb[$x][$y], 2);
-		}
-		$eigenValueTotal += round(round($jmlmnk[$x], 2) + round($pv[$x], 2), 2);
-	}
+	$consindex = ($eigenvektor - $n) / ($n - 1);
 
 
 
@@ -391,9 +385,9 @@ function getConsIndex($matrik_a, $matrik_b, $n, $matrikb, $jmlmnk, $pv)
 }
 
 // Mencari Consistency Ratio
-function getConsRatio($matrik_a, $matrik_b, $n, $matrikb, $jmlmnk, $pv)
+function getConsRatio($matrik_a, $matrik_b, $n)
 {
-	$consindex = getConsIndex($matrik_a, $matrik_b, $n, $matrikb, $jmlmnk, $pv);
+	$consindex = getConsIndex($matrik_a, $matrik_b, $n);
 	$consratio = $consindex / getNilaiIR($n);
 
 	return $consratio;
@@ -439,7 +433,8 @@ function showTabelPerbandingan($jenis, $kriteria)
 
 				//inisialisasi
 				$urut = 0;
-				for ($x = 0; $x <= ($n - 1); $x++) {
+
+				for ($x = 0; $x <= ($n - 2); $x++) {
 					for ($y = ($x + 1); $y <= ($n - 1); $y++) {
 
 						$urut++;
@@ -480,7 +475,6 @@ function showTabelPerbandingan($jenis, $kriteria)
 				<?php
 					}
 				}
-
 				?>
 			</tbody>
 		</table>
