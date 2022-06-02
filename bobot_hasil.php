@@ -56,6 +56,7 @@ include('header.php');
 				?>
 				<th>Jumlah</th>
 				<th>Priority Vector</th>
+				<th>Eigen Value</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -69,6 +70,8 @@ include('header.php');
 
 				echo "<td>" . round($jmlmnk[$x], 5) . "</td>";
 				echo "<td>" . round($pv[$x], 5) . "</td>";
+				$eigenValueTotal += round(round($jmlmnk[$x], 2) * round($pv[$x], 2), 2);
+				echo "<td>" . round(round($jmlmnk[$x], 2) * round($pv[$x], 2), 2) . "</td>";
 
 				echo "</tr>";
 			}
@@ -76,18 +79,32 @@ include('header.php');
 
 		</tbody>
 		<tfoot>
-			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Principe Eigen Vector (λ maks)</th>
-				<th><?php echo (round($eigenvektor, 5)) ?></th>
-			</tr>
-			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Consistency Index</th>
-				<th><?php echo (round($consIndex, 5)) ?></th>
-			</tr>
-			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Consistency Ratio</th>
-				<th><?php echo (round(($consRatio * 100), 2)) ?> %</th>
-			</tr>
+			<tfoot>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">Jumlah</th>
+					<th><?php echo (round($eigenValueTotal, 2)) ?></th>
+				</tr>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">n Kriteria</th>
+					<th><?php echo (round($n, 2)) ?></th>
+				</tr>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">Lamda Max</th>
+					<th><?php echo (round($jumlahRatio, 2) / $n) ?></th>
+				</tr>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">Consistency Index</th>
+					<th><?php echo (round($consIndex, 2)) ?></th>
+				</tr>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">IR</th>
+					<th><?php echo (round($nilaiIR, 2)) ?></th>
+				</tr>
+				<tr>
+					<th colspan="<?php echo ($n + 3) ?>">Consistency Ratio</th>
+					<th><?php echo $consRatioPersen = (round(($consRatio * 100), 2)) ?> %</th>
+				</tr>
+			</tfoot>
 		</tfoot>
 	</table>
 
@@ -95,7 +112,7 @@ include('header.php');
 
 	<?php
 
-	if ($consRatio > 0.1) {
+	if ($consRatio > 1) {
 	?>
 		<div class="ui icon red message">
 			<i class="close icon"></i>

@@ -35,9 +35,9 @@ if (isset($_POST['submit'])) {
 
 
 			if ($jenis == 'kriteria') {
-				inputDataPerbandinganKriteria($x, $y, $matrik[$x][$y]);
+				inputDataPerbandinganKriteria($x, $y, round($matrik[$x][$y], 2));
 			} else {
-				inputDataPerbandinganAlternatif($x, $y, ($jenis - 1), $matrik[$x][$y]);
+				inputDataPerbandinganAlternatif($x, $y, ($jenis - 1), round($matrik[$x][$y], 2));
 			}
 		}
 	}
@@ -60,6 +60,7 @@ if (isset($_POST['submit'])) {
 		for ($y = 0; $y <= ($n - 1); $y++) {
 			$value		= $matrik[$x][$y];
 			$jmlmpb[$y] += $value;
+			// $jmlmpb[$y] += round(a$value, 2);
 		}
 	}
 
@@ -70,7 +71,7 @@ if (isset($_POST['submit'])) {
 		for ($y = 0; $y <= ($n - 1); $y++) {
 			$matrikb[$x][$y] = $matrik[$x][$y] / $jmlmpb[$y];
 			$value	= $matrikb[$x][$y];
-			$jmlmnk[$x] += $value;
+			$jmlmnk[$x] += round($value, 2);
 		}
 
 		// nilai priority vektor
@@ -88,9 +89,12 @@ if (isset($_POST['submit'])) {
 	}
 
 	// cek konsistensi
-	$eigenvektor = getEigenVector($jmlmpb, $jmlmnk, $n);
-	$consIndex   = getConsIndex($jmlmpb, $jmlmnk, $n);
-	$consRatio   = getConsRatio($jmlmpb, $jmlmnk, $n);
+	$jumlahRatio = getEigenVector($jmlmpb, $jmlmnk, $n);
+	// $jumlahRatio = 5.98;
+	$consIndex   = getConsIndex($jmlmpb, $jmlmnk, $n, $matrikb, $jmlmnk, $pv);
+	$eigenvektor = getEigenVector($jmlmpb, $jmlmnk, $n); //Principe Eigen Vector (λ maks)); //Principe Eigen Vector (λ maks)
+	$nilaiIR = getNilaiIR($n);
+	$consRatio   = getConsRatio($jmlmpb, $jmlmnk, $n, $matrikb, $jmlmnk, $pv);
 
 	if ($jenis == 'kriteria') {
 		include('output.php');

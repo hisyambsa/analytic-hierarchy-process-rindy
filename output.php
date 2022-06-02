@@ -22,7 +22,7 @@ include('header.php');
 				echo "<tr>";
 				echo "<td>" . getKriteriaNama($x) . "</td>";
 				for ($y = 0; $y <= ($n - 1); $y++) {
-					echo "<td>" . round($matrik[$x][$y], 5) . "</td>";
+					echo "<td>" . round($matrik[$x][$y], 2) . "</td>";
 				}
 
 				echo "</tr>";
@@ -34,7 +34,7 @@ include('header.php');
 				<th>Jumlah</th>
 				<?php
 				for ($i = 0; $i <= ($n - 1); $i++) {
-					echo "<th>" . round($jmlmpb[$i], 5) . "</th>";
+					echo "<th>" . round($jmlmpb[$i], 2) . "</th>";
 				}
 				?>
 			</tr>
@@ -55,20 +55,24 @@ include('header.php');
 				}
 				?>
 				<th>Jumlah</th>
-				<th>Priority Vector</th>
+				<th>Rata-rata</th>
+				<!-- <th>Eigen Value</th> -->
 			</tr>
 		</thead>
 		<tbody>
 			<?php
+			$eigenValueTotal = 0;
 			for ($x = 0; $x <= ($n - 1); $x++) {
 				echo "<tr>";
 				echo "<td>" . getKriteriaNama($x) . "</td>";
 				for ($y = 0; $y <= ($n - 1); $y++) {
-					echo "<td>" . round($matrikb[$x][$y], 5) . "</td>";
+					echo "<td>" . round($matrikb[$x][$y], 2) . "</td>";
 				}
-
-				echo "<td>" . round($jmlmnk[$x], 5) . "</td>";
-				echo "<td>" . round($pv[$x], 5) . "</td>";
+				echo "<td>" . round($jmlmnk[$x], 2) . "</td>";
+				echo "<td>" . round($pv[$x], 2) . "</td>";
+				$eigenValueTotal += round(round($jmlmpb[$x], 2) * round($pv[$x], 2), 2);
+				// echo "<td>" . round($jmlmpb[$x], 2) . '-' . round($jmlmpb[$x], 2) * round($pv[$x], 2) . "</td>";
+				// echo "<td>1</td>";
 
 				echo "</tr>";
 			}
@@ -77,22 +81,34 @@ include('header.php');
 		</tbody>
 		<tfoot>
 			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Principe Eigen Vector (λ maks)</th>
-				<th><?php echo (round($eigenvektor, 5)) ?></th>
+				<th colspan="<?php echo ($n + 2) ?>">Jumlah</th>
+				<th><?php echo (round($eigenValueTotal, 2)) ?></th>
+			</tr>
+			<tr>
+				<th colspan="<?php echo ($n + 2) ?>">n Kriteria</th>
+				<th><?php echo (round($n, 2)) ?></th>
+			</tr>
+			<tr>
+				<th colspan="<?php echo ($n + 2) ?>">Lamda Max</th>
+				<th><?php echo (round($jumlahRatio, 2) / $n) ?></th>
 			</tr>
 			<tr>
 				<th colspan="<?php echo ($n + 2) ?>">Consistency Index</th>
-				<th><?php echo (round($consIndex, 5)) ?></th>
+				<th><?php echo (round($consIndex, 2)) ?></th>
+			</tr>
+			<tr>
+				<th colspan="<?php echo ($n + 2) ?>">IR</th>
+				<th><?php echo (round($nilaiIR, 2)) ?></th>
 			</tr>
 			<tr>
 				<th colspan="<?php echo ($n + 2) ?>">Consistency Ratio</th>
-				<th><?php echo (round(($consRatio * 100), 2)) ?> %</th>
+				<th><?php echo $consRatioPersen = (round(($consRatio * 100), 2)) ?> %</th>
 			</tr>
 		</tfoot>
 	</table>
 
 	<?php
-	if ($consRatio > 0.1) {
+	if ($consRatio > 1) {
 	?>
 		<div class="ui icon red message">
 			<i class="close icon"></i>
