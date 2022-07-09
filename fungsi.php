@@ -362,7 +362,7 @@ function getNilaiIR($jmlKriteria)
 function getEigenVector($matrik_a, $matrik_b, $n)
 {
 	$eigenvektor = 0;
-	for ($i = 0; $i <= ($n - 1); $i++) {
+	for ($i = 0; $i <= ($n); $i++) {
 		$eigenvektor += ($matrik_a[$i] * (($matrik_b[$i]) / $n));
 		// $eigenvektor += $matrik_b[$i];
 		// var_dump($matrik_b[$i]);

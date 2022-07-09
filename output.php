@@ -54,8 +54,8 @@ include('header.php');
 					echo "<th>" . getKriteriaNama($i) . "</th>";
 				}
 				?>
-				<th>Jumlah</th>
-				<th>Rata-rata</th>
+				<!-- <th>Jumlah</th> -->
+				<th>Rata-rata / Eigen Value</th>
 				<!-- <th>Eigen Value</th> -->
 			</tr>
 		</thead>
@@ -68,7 +68,7 @@ include('header.php');
 					echo "<td>" . round($matrikb[$x][$y], 5) . "</td>";
 				}
 
-				echo "<td>" . round($jmlmnk[$x], 5) . "</td>";
+				// echo "<td>" . round($jmlmnk[$x], 5) . "</td>";
 				echo "<td>" . round($pv[$x], 5) . "</td>";
 
 				echo "</tr>";
@@ -78,15 +78,23 @@ include('header.php');
 		</tbody>
 		<tfoot>
 			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Principe Eigen Vector (λ maks)</th>
+				<th colspan="<?php echo ($n + 1) ?>">Ratio Index</th>
+				<th><?php echo (round($ratioIndex, 5)) ?></th>
+			</tr>
+			<!-- <tr>
+				<th colspan="<?php echo ($n + 1) ?>">Jumlah</th>
+				<th><?php echo (round($ratioIndex, 5)) ?></th>
+			</tr> -->
+			<tr>
+				<th colspan="<?php echo ($n + 1) ?>">Principe Eigen Vector (λ maks)</th>
 				<th><?php echo (round($eigenvektor, 5)) ?></th>
 			</tr>
 			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Consistency Index</th>
+				<th colspan="<?php echo ($n + 1) ?>">Consistency Index</th>
 				<th><?php echo (round($consIndex, 5)) ?></th>
 			</tr>
 			<tr>
-				<th colspan="<?php echo ($n + 2) ?>">Consistency Ratio</th>
+				<th colspan="<?php echo ($n + 1) ?>">Consistency Ratio</th>
 				<th><?php echo (round(($consRatio * 100), 2)) ?> %</th>
 			</tr>
 		</tfoot>
