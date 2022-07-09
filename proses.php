@@ -69,9 +69,9 @@ if (isset($_POST['submit'])) {
 	for ($x = 0; $x <= ($n - 1); $x++) {
 		for ($y = 0; $y <= ($n - 1); $y++) {
 			$matrikb[$x][$y] = $matrik[$x][$y] / $jmlmpb[$y];
-			var_dump($matrik[$x][$y]);
-			var_dump($jmlmpb[$y]);
-			echo "--------";
+			// var_dump($matrik[$x][$y]);
+			// var_dump($jmlmpb[$y]);
+			// echo "--------";
 			$value	= $matrikb[$x][$y];
 			$jmlmnk[$x] += $value;
 		}
@@ -87,18 +87,16 @@ if (isset($_POST['submit'])) {
 			inputAlternatifPV($id_alternatif, $id_kriteria, $pv[$x]);
 		}
 	}
-	die;
 
 	// cek konsistensi
 	$ratioIndex = getNilaiIR($n);
-	$eigenvektor = getEigenVector($jmlmpb, $jmlmnk, $n);
-
+	$eigenvektor = getEigenVectorFull($jmlmpb, $jmlmnk, $n, $matrikb, $pv);
 
 	// var_dump($jmlmpb);
 	// var_dump($jmlmnk);
 	// die;
-	$consIndex   = getConsIndex($jmlmpb, $jmlmnk, $n);
-	$consRatio   = getConsRatio($jmlmpb, $jmlmnk, $n);
+	$consIndex   = getConsIndex($jmlmpb, $jmlmnk, $n, $matrikb, $pv);
+	$consRatio   = getConsRatio($jmlmpb, $jmlmnk, $n, $matrikb, $pv);
 
 	if ($jenis == 'kriteria') {
 		include('output.php');

@@ -359,35 +359,73 @@ function getNilaiIR($jmlKriteria)
 }
 
 // mencari Principe Eigen Vector (λ maks)
-function getEigenVector($matrik_a, $matrik_b, $n)
+function getEigenVector($matrik_a, $matrik_b, $n, $matrikkb)
 {
 	$eigenvektor = 0;
 	for ($i = 0; $i <= ($n); $i++) {
 		$eigenvektor += ($matrik_a[$i] * (($matrik_b[$i]) / $n));
 		// $eigenvektor += $matrik_b[$i];
-		// var_dump($matrik_b[$i]);
-	}
-	// die;
 
+		// var_dump($matrikkb[0][0]);
+		// var_dump($matrik_a[0]);
+		// var_dump($matrik_b[0]);
+		// var_dump($matrik_b[0] / $n);
+		// var_dump($n);
+		// var_dump($eigenvektor);
+		// die;
+	}
+
+	return $eigenvektor;
+}
+// mencari Principe Eigen Vector (λ maks)
+function getEigenVectorFull($matrik_a, $matrik_b, $n, $matrikkb, $pv)
+{
+	$eigenvektor = 0;
+	for ($a = 0; $a <= ($n - 1); $a++) {
+		for ($b = 0; $b <= ($n - 1); $b++) {
+			// $eigenvektor += ($matrik_a[$i] * (($matrik_b[$i]) / $n));
+			// $eigenvektor += $matrik_b[$i];
+			if (empty($jumlahPerBaris[$a])) {
+				$jumlahPerBaris[$a] = 0;
+			}
+			$jumlahPerBaris[$a] += ($matrikkb[$a][$b] * (($matrik_b[$b]) / $n));
+
+			// var_dump($matrikkb[0][0]);
+			// var_dump($matrik_a[0]);
+			// var_dump($matrik_b[0]);
+			// var_dump($matrik_b[0] / $n);
+			// var_dump($n);
+			// var_dump($matrik_a);
+			// die;
+		}
+		$eigenvektor += $jumlahPerBaris[$a] + $pv[$a];
+	}
+	// var_dump($pv);
+	// var_dump($jumlahPerBaris);
 	return $eigenvektor;
 }
 
 // mencari Cons Index
-function getConsIndex($matrik_a, $matrik_b, $n)
+function getConsIndex($matrik_a, $matrik_b, $n, $matrikkb, $pv)
 {
-	$eigenvektor = getEigenVector($matrik_a, $matrik_b, $n);
-	$consindex = ($eigenvektor - $n) / ($n - 1);
+	$eigenvektors = getEigenVectorFull($matrik_a, $matrik_b, $n, $matrikkb, $pv);
+	// var_dump((($eigenvektors / $n) - $n) / ($n - 1));
+	// die;
+	$consindex = (($eigenvektors / $n) - $n) / ($n - 1);
+	return $consindex;
+
+	// $consindex = ($eigenvektors - $n) / ($n - 1);
 
 
 
-	$consindex = ($eigenvektor - $n) / ($n - 1);
+	$consindex = ($eigenvektors - $n) / ($n - 1);
 	return $consindex;
 }
 
 // Mencari Consistency Ratio
-function getConsRatio($matrik_a, $matrik_b, $n)
+function getConsRatio($matrik_a, $matrik_b, $n, $matrikkb, $pv)
 {
-	$consindex = getConsIndex($matrik_a, $matrik_b, $n);
+	$consindex = getConsIndex($matrik_a, $matrik_b, $n, $matrikkb, $pv);
 	$consratio = $consindex / getNilaiIR($n);
 
 	return $consratio;
